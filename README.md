@@ -1,6 +1,8 @@
 MELEE
 You're watching anyway. Now watch together.
 
+meleeme.com
+
 Melee is a social prediction platform where private friend groups compete around any structured event — sports brackets, award show ballots, reality TV eliminations, and more. It was discovered, not designed: an accidental beta built for a single friend group proved that the social layer drives more engagement than the event itself.
 
 
@@ -89,7 +91,7 @@ API keys: see .env.example
 Setup
 # Clone the repo
 
-git clone https://github.com/[your-org]/melee.git
+git clone https://github.com/meleeme/melee.git
 
 cd melee
 
@@ -169,5 +171,5 @@ This is a private project in active development. If you're on the build team and
 
 
 
-MELEE · Private · May 2026
+MELEE · meleeme.com · Private · May 2026
 
