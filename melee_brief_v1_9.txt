@@ -1,0 +1,755 @@
+﻿MELEE
+Product Brief & Strategy Document
+You're watching anyway. Now watch together.
+Version 1.4  ·  May 2026
+ONE-LINE PITCH: Melee is a social prediction platform where any group of friends can compete around any structured event — sports brackets, award show ballots, reality TV eliminations, and more — with chatter and accountability built in.
+	
+
+1. Origin Story: The Accidental Beta
+Melee was not designed in a vacuum. It was discovered.
+In May 2026, a single-page web app was built for a small group of friends to compete on the 2026 NCAA DI Men’s Lacrosse Championship bracket. The entire product lived in one index.html file, backed by Supabase, and built with AI assistance in a matter of days. It had no name, no brand, and no ambitions beyond the tournament. It was an accidental beta.
+What happened next was instructive. The app worked — not because the lacrosse bracket was compelling on its own, but because the social layer made it matter. The features that drove engagement were:
+* A shared leaderboard where friends could see each other’s scores
+* A Chatter section (comments + thumbs up/down reactions) that created pre- and post-game banter
+* The ability to view any friend’s picks and compare
+* A pick deadline that created shared anticipation
+* Pick change visibility — group members can see when and what another user updated their picks
+
+
+The insight: the lacrosse data was just configuration. The real product was a social competition engine. The event was interchangeable.
+
+
+POC VALIDATION: The accidental beta demonstrated that a lightweight, friend-group-focused prediction game with a social layer creates genuine engagement — even among users who are casual fans of the underlying event. The Chatter section was the most-used feature after picks themselves. BracketBattle was the accidental beta. It proved everything we needed to know. Melee is what comes next.
+	
+
+1.2 Early Beta Feedback
+First session data from a deliberately diverse group of users:
+
+
+Persona
+	Description
+	Signal
+	The Fringe Competitive
+	Not very engaged socially, but highly competitive. Saved a bracket.
+	Competitiveness is a stronger onboarding hook than social connection.
+	The Total Neophyte
+	Knows nothing about lacrosse. Didn’t want to miss out. Saved a bracket.
+	FOMO is a valid onboarding mechanic. Zero-knowledge entry works.
+	The Invested Expert
+	Colleague whose son plays lacrosse. Fan and product evaluator.
+	Expert users self-select as product advocates. Watch for feedback.
+	The Total Outsiders
+	Sister and niece. Know nothing about the sport or the group.
+	Social pull-in works with zero context. Group belonging > event knowledge.
+	
+
+Metric
+	Result
+	Interpretation
+	Bracket saves
+	100%
+	Onboarding is working. All personas completed the core action.
+	Chattered at least once
+	50%
+	Extraordinary for a first session with a new product. Social layer is working.
+	Chattered more than once
+	10%
+	Power users self-identified on day one. Watch them closely.
+	
+
+Feedback
+	Decision
+	“This is awesome!” / “This is really cool”
+	Core loop validated. Tone and concept land immediately.
+	“No edit function in comments?”
+	By design. Your words stand. No edit, no confirmation step. Type, post, done. Friction before Chatter kills the product.
+	
+
+2. The Problem
+Prediction games and bracket challenges exist everywhere. But they all have the same fundamental flaw: they are built for strangers, not friends.
+
+
+What exists today
+ESPN Tournament Challenge: March Madness only, massive scale, no intimacy
+Yahoo Pick’em: Sports-only, generic leaderboards
+Bracketology.tv: Reality TV focus, 155K downloads, $81K revenue after 3 years
+Bracket management tools (brackets.app, Challonge): For organizers, not players
+	What’s missing
+A platform for any event, not just sports
+Private friend groups as the primary unit, not global leaderboards
+Chatter and social accountability built into the core loop
+User-generated events — anyone can create a Melee around anything
+	
+
+The deeper problem is that the most engaged users in any prediction game are not the ones who know the most about the event. They are the ones who have the most to prove to their friends. Melee is built for those people.
+
+
+3. The Opportunity
+3.1 Market Landscape
+The bracket/prediction app market splits into two established segments — and a third that nobody owns.
+
+
+The two established segments
+B2B tournament management tools (Challonge, brackets.app) — saturated, commodity pricing, no social layer. Built for organizers, not players.
+B2C sports prediction games (ESPN Tournament Challenge, Yahoo Pick’em) — dominated by media giants with unlimited budgets, massive scale, zero intimacy. Built for strangers.
+
+
+The named competitors — May 2026
+BracketFights.com — A content creation tool for building shareable brackets around any topic: movies, anime, candy flavors. Their own guidelines explicitly ban using it for your friends or your Discord crew. It is designed for strangers voting on pop culture, not friend groups competing against each other. No leaderboard, no groups, no Chatter. Not a competitor — it is a proof of the white space Melee occupies. Traffic: approximately 148K monthly visits, average session 16 minutes. Users leave and go to TierMaker. No social retention loop.
+BracketBattle.com — The closest competitor on paper: customizable bracket competitions for friend groups, real-time leaderboards, multi-event support. Worth reading carefully. Their primary hook is a $10 million perfect-bracket grand prize. They have gone prize-pool — pulling them directly into the gambling-adjacent space Melee is explicitly positioned against. Their retention mechanic is prize money. Melee’s is social stakes and group history. They are competing with DraftKings for attention, not with friend group banter. Additionally: bracket-only format, no ballot or pick’em, no Chatter, no persistent groups across events, no AI event creation.
+Bracketology.tv — Reality TV focus, curation model, $81K revenue after three years and 18,000 development hours. Proof of concept, not a business. See Section 3.3.
+
+
+The white space
+No product in the current market combines: any event format + private friend groups as the primary unit + social layer (Chatter) as a core feature + persistent group history across events + AI-assisted event creation. That combination is Melee’s lane, and it is unoccupied.
+Note on fantasy platforms (ESPN Fantasy, Sleeper, Yahoo Fantasy): Melee does not directly compete. Fantasy is a season-long commitment requiring deep expertise and sustained engagement. Melee is event-by-event — show up, make picks, chatter, done. The disengaged friend who won’t manage a fantasy roster will absolutely make Oscar picks to clown on their friends. Sleeper is worth watching closely as they expand into pick’em and social features, but their core product remains season-long.
+COMPETITIVE VERDICT: BracketBattle’s pivot to prize pools has pulled the closest competitor away from the space Melee is building in. The lane is not just open — it is getting clearer.
+	
+
+* B2B tournament management tools (Challonge, brackets.app) — saturated, commodity pricing, no social layer
+* B2C sports prediction games (ESPN, Yahoo) — dominated by media giants with unlimited budgets
+
+
+The white space is the user-generated social prediction platform — where anyone creates an event around anything, invites their friends, and the community is the product. No one owns this.
+
+
+Note on fantasy platforms (ESPN Fantasy, Sleeper, Yahoo Fantasy): Melee does not directly compete. Fantasy is a season-long commitment requiring deep expertise and sustained engagement. Melee is event-by-event — show up, make picks, chatter, done. The disengaged friend who won’t manage a fantasy roster will absolutely make Oscar picks to clown on their friends. That said, Sleeper is worth watching closely as they expand into pick’em and social features.
+
+
+3.2 The Non-Homogeneous Friend Group Problem
+The single biggest barrier to prediction game adoption is the heterogeneous friend group. Not everyone in a group cares about lacrosse, or the Oscars, or Survivor. Traditional apps lose these users immediately.
+
+
+Melee’s answer is a set of features designed to pull in the disengaged friend:
+* Dead-easy picks — random autofill means zero knowledge required to play
+* Prop questions — frivolous side questions (“who cries first?”) that anyone can answer
+* The prediction wall — post a bold take before picks lock, no formal pick required
+* Group streaks — the group has a collective record; missing one breaks it
+* Pick transparency — picks visible to the group immediately on submission; the Activity Feed shows changes in real time up to the deadline
+* Pick change visibility — the group can see when a member updates their picks and what changed, adding accountability
+* Social pressure mechanics — show who hasn’t submitted yet; group reminders from friends, not the app
+
+
+KEY INSIGHT: The disengaged friend doesn’t need to care about the event. They need to care about not being left out of the group moment. Every feature above is designed to make not participating feel worse than participating.
+	
+
+3.3 The Platform vs. Curation Choice
+Bracketology.tv chose the curation model: they decide which shows to support, they manually track results, they control the content. After three years and 18,000 development hours, they have $81K in revenue. That is a proof of concept, not a business.
+Melee chooses the platform model: users create the events, define the categories, invite their friends, and enter the results. Melee provides the engine. The content is user-generated and infinite.
+This is a harder product to build but a fundamentally larger opportunity. The moat is the social graph — once a friend group has history in Melee (jokes, callouts, that one friend who always picks wrong), they don’t want to start over somewhere else.
+
+
+4. Brand
+Name: MELEE
+No French accent. The anglicized version is universally readable, searchable, and feels like a brand name rather than a dictionary entry.
+Primary tagline:
+“You’re watching anyway. Now watch together.”
+Product line:
+“You don’t have to care. But you will.”
+Tone
+Fun, warm, a little chaotic. Social without being aggressive. Built for friends, not strangers. Not ESPN serious. Not fantasy sports nerdy. Not a betting app.
+	Brand DNA
+THE MOMENT: A melee is the moment when everyone is in it — the chaos of friends arguing about who had the right pick, whose bold take aged well, whose confident prediction aged terribly. That moment is the product.
+Pop Culture Context: Super Smash Bros. Melee is one of the most beloved games ever made, with a massive nostalgic following. Connotations of chaotic, skill-based, friend-group competition.
+Origin: The accidental beta proved the concept. Its codebase is the starting point. Its friend group is the first Melee group. Its lacrosse tournament is the first Melee event. The name is retired.
+	
+
+4.1 Why Melee Exists: The Social Paradox
+You’re watching anyway. Now watch together.
+	
+
+We have more ways to connect than at any point in history. We are also more alone than ever.
+The game is on. The Oscars are on. Eurovision is on. And everyone is experiencing it separately — on their own couch, in their own city, reacting into the void. Maybe posting something on social media that disappears into an algorithm and gets a handful of likes from people who weren’t even watching.
+Melee doesn’t fight this. It meets people exactly where they are — on their couch, on their phone, half-watching — and gives them someone to experience it with. Not a stadium of strangers. Their actual friends.
+
+
+Without Melee
+Watching alone, in the same room as everyone else
+Posting into an algorithm
+Reactions disappear
+No stakes, no memory
+The event ends. Nothing lingers.
+	With Melee
+Watching apart, but genuinely together
+Posting into your Group
+Reactions land with people who were watching
+Picks, scores, receipts
+The event ends. The Chatter doesn’t.
+	
+
+POSITIONING: Melee isn’t competing with going out. It’s competing with being alone while staying in. And it wins that competition every time — because all it asks is that you watch what you were already going to watch. But now you have skin in the game and someone to answer to.
+	4.2 What Melee Looks Like: The Oscars Vignette
+The brief can describe Melee. This shows it.
+
+
+It’s Oscar Sunday. Friend A — let’s call her Jordan — is on the couch, half-watching the pre-show, fully engaged in a group text that has been running for three hours. Friends B through F are scattered across three cities. The argument started with Best Picture and has since metastasized into Best Director, Best Actress, the snubs, the politics of the Academy, and whether anyone cares about the shorts categories.
+Jordan puts down the phone and opens Melee.
+
+
+The Host moment — under three minutes
+She types “2027 Oscars” into the event creation screen. Melee pulls the full nominees list, detects the ballot format, and scaffolds every category — Best Picture, Best Director, Best Actress, Best Actor, Supporting, Animated, International, the works. Jordan reviews the draft, confirms, sets the picks deadline for one hour before the ceremony, and hits go.
+A Melee invite link appears. She copies it into the group text with one addition:
+Let’s do this bitches!
+The link generates a rich preview card: the group name she just named “The Infallible Ones,” the event name, and a countdown. Picks lock in 58 minutes.
+
+
+The join moment — one tap
+Friends B through F get the text. They tap the link. A preview of the Melee appears before they’ve done anything — the leaderboard waiting to be filled, the categories listed. One tap to register. No download, no app store, no friction.
+Friend B — the film person, opinionated, convinced she knows more than everyone — starts picking immediately and deliberately. Friend C follows her lead on half the categories and diverges loudly on the other half. Friend D has strong feelings about Best Actor and zero opinions about anything else.
+Friend E uses autofill. Every category, random picks, thirty seconds. She has seen exactly one of the nominated films. She is already talking trash in Chatter.
+Friend F joins late, skims the categories, makes fast picks, and goes back to the group text. He is here for the argument, not the Academy.
+
+
+The pre-ceremony window — picks are public
+Picks are visible to the group the moment they’re submitted. Jordan can see that Friend B picked a different Best Picture winner. She changes her pick with twelve minutes to go. Everyone can see the change in the Activity Feed. Friend B sends a Chatter post: “Really Jordan? REALLY?”
+The deadline locks. Six people, committed. The argument is now on the record.
+
+
+The ceremony — Chatter erupts
+Best Supporting Actor is announced. Friend C had the only correct pick. She posts to Chatter before the winner finishes their sentence. Friend B, who was wrong, immediately responds. The Melee leaderboard shifts. Jordan checks the standings between categories.
+Best Picture is announced. Friend E — the autofill — got it right. She didn’t watch the movie. She didn’t watch any of the movies. She is currently in second place.
+The group text, which had gone quiet during the ceremony, reignites. Someone screenshots the leaderboard and sends it. Someone else opens Melee to look at Friend E’s picks. The banter in Chatter and the banter in the text thread are running in parallel, feeding each other.
+
+
+The aftermath — the receipts live forever
+The ceremony ends. Friend B, the self-appointed film expert, finishes fourth. Friend E finishes second on random picks. The leaderboard is permanent. The Chatter thread is permanent. Jordan has already typed “Golden Globes?” into the Melee event search.
+The argument that started in a group text became a game. The game became a record. The record becomes the reason to do it again.
+
+
+THIS IS MELEE: A shared argument, a one-tap invite, six friends in three cities competing in real time, and a casual fan finishing second to the person who watched every film. The event is the excuse. The banter is the product.
+	
+
+
+
+4.3 Mobile Identity
+Melee is a mobile product. The brief says “on their couch, on their phone, half-watching” — and that is exactly right. Every emotionally significant moment in the Melee experience happens on a phone: the last-minute pick change, the Chatter reaction mid-game, the group reminder from a friend, the leaderboard check when results come in. “Web-first, mobile-responsive” is a valid shipping strategy, but mobile-responsive must be treated as a first-class design constraint, not an afterthought.
+The highest-stakes screens — Chatter, the pick submission flow, the leaderboard, the Activity Feed — must be designed mobile-first and validated on a phone before they are considered done. Desktop is secondary. Native iOS/Android apps are post-MVP, but the web experience must not feel like a port.
+The invite mechanic — a short code like CREW-4829 — is text-message friendly by design. The invite link must resolve cleanly in a single tap from iMessage, WhatsApp, or any messaging surface. Group join should require no account creation to preview. This is the first mobile moment in the funnel and it cannot have friction.
+MOBILE DESIGN STANDARD: The Chatter feed, pick submission, leaderboard, and Activity Feed must be designed and QA’d on mobile first. Any screen that feels awkward on a phone is not finished. The emotional core of the product lives in one-thumb moments on a couch — design for that user first.
+	
+
+4.3.1 Social Sharing and OG Cards
+Social sharing was originally listed as post-MVP. This decision should be revisited. OG cards — the rich link previews that appear when a Melee invite link is shared in iMessage, WhatsApp, Twitter, or anywhere else — are one of the cheapest top-of-funnel mechanics available and influence the very first impression a new user has of the product.
+A bare invite URL with no preview is a missed moment. A rich link preview — event name, group name, pick deadline — creates anticipation before the recipient has tapped anything. The engineering cost is a meta tag block in the HTML head. The return is every shared link doing conversion work for free.
+OG cards should be pulled into MVP scope. The recommended minimum: a dynamically generated card per Melee showing the event name, group name, and a deadline countdown. Example copy: “[Group Name] is picking the 2027 Oscars. Picks lock in 3 days. Think you know better?” This requires a server-side metadata endpoint and a card image — both achievable within the existing Next.js/Supabase stack with minimal effort.
+The design of the sharing flow also has downstream schema implications. Shareable links should be architected now — even if the full social sharing feature ships later — so the URL structure and metadata endpoints do not need to be retrofitted. Deferring the thinking creates rework; deferring the full feature is fine.
+SCOPE DECISION: OG cards are recommended for MVP. The engineering cost is low (meta tags + a Next.js API route for dynamic card generation). The return is every shared invite link working as a conversion surface. The URL structure and metadata endpoints should be architected regardless of when the full social sharing feature ships — retrofitting these later creates unnecessary rework.
+	
+
+5. Platform Nomenclature
+All terminology is domain-neutral — it works equally for sports brackets, award ballots, reality TV pools, and any future event type. Format-specific language (e.g. “Round” for brackets, “Episode” for Survivor) appears in the UI as user-facing Stage labels defined by the Host. The underlying schema uses neutral developer terms throughout.
+
+
+5.1 User-Facing Terms
+Term
+	Definition
+	Melee
+	The competition itself
+	Group
+	The friend group competing together. User-defined name (e.g. “The Infallible Ones”).
+	Host
+	The person who creates and manages a Melee
+	Picks
+	A user’s selections within a Melee
+	Stage
+	A unit of competition within a Melee. Label defined by the Host (e.g. “Round 1”, “Best Picture”, “Episode 7”).
+	Contenders
+	The options available to pick within a Stage
+	Outcome
+	The result of a Stage, entered by the Host
+	Leaderboard
+	The running score within a Group
+	Chatter
+	The group social feed — comments and reactions
+	
+
+5.2 Developer / Schema Terms
+Term
+	Definition
+	Stage
+	Any discrete unit of competition within a Melee
+	SubStage1, SubStage2, …
+	Nested units within a Stage, via parent_id on the stages table. Infinitely nestable.
+	parent_id
+	Foreign key on the stages table enabling recursive Stage hierarchy
+	
+
+5.3 Stage Hierarchy by Format
+Format
+	Stage
+	SubStage1
+	SubStage2
+	Bracket
+	Round 1
+	Matchup
+	—
+	Ballot (Oscars)
+	Best Picture
+	—
+	—
+	Survival Pool
+	Episode 7
+	Tribal Council
+	Individual Immunity
+	Pick’em
+	Week 12
+	Sunday Games
+	Night Game
+	Ranking Challenge
+	Race Weekend
+	Qualifying
+	Sprint Race
+	
+
+6. Product Vision
+6.1 Core Mechanic
+The core primitive of Melee is simple: a structured prediction game with a social layer. The format changes per event type. The friend group competing is the constant.
+
+
+Format
+	Description
+	Example Events
+	Bracket
+	Single/double elimination picks round by round
+	NCAA Tournament, NFL Playoffs
+	Ballot
+	Pick winner in each category, one night of results
+	Oscars, Grammys, Emmys
+	Pick’em
+	Weekly game-by-game predictions
+	NFL week, Premier League matchday
+	Survival Pool
+	Predict who gets eliminated each episode
+	Survivor, Big Brother, The Bachelor
+	Ranking Challenge
+	Predict order of finish
+	NFL Draft, F1 race finishing order
+	
+
+6.2 The Social Loop
+Every Melee follows the same arc:
+* Event is created and group is invited
+* Members submit picks — visible to the group immediately on submission
+* Pick changes visible in real time via the Activity Feed until the deadline
+* The deadline locks all picks — the lock is the drama moment, not a reveal
+* Chatter erupts in the group feed as results come in
+* Final leaderboard settles who was right
+* The receipts live forever — pick change history permanently visible after lock
+
+
+PRE-EVENT TRANSPARENCY IS THE MECHANIC: Picks are visible as soon as they are submitted. Seeing what your friends picked before the event is what drives Chatter. The last-minute pick change — visible to everyone — is a mind game. The deadline is the lock, not a reveal.
+	
+
+6.3 Melee is the Anti-Bet
+Melee occupies a fundamentally different space from betting platforms. This is a brand pillar, not a footnote.
+
+
+Betting
+Transactional. You vs. the house, alone.
+Material gain. Too much skin in the game.
+The worse your friends do, the better.
+Stressful.
+	Melee
+Communal. You vs. your friends, together.
+Bragging rights. Social stakes.
+You want your friends there — to be wrong, to answer for it.
+Fun. It’s game night.
+	
+
+BRAND POSITION: Melee is game night. The stakes are social, not financial. Losing a Melee to your friend who used autofill is hilarious. Losing money is stressful. These are not the same product and should never be positioned together.
+	
+
+6.4 Groups
+Groups are the fundamental social unit of Melee. A Group is a persistent friend circle that can enter any Melee together. Key properties:
+* Created with a short invite code (e.g. CREW-4829)
+* Members can be in multiple Groups
+* Each Group has its own leaderboard, Chatter thread, and history
+* Group streaks track participation across events
+* The Host can send reminders that come from a friend, not the app
+* Groups choose their own name — the identity of the group is user-defined
+* Cross-event leaderboard — a Group’s all-time record across every Melee they’ve played. History as identity.
+* Activity Feed — real-time log of all pick submissions and changes. Visible to all group members. Separate from Chatter.
+* Individual expression — any member can purchase personal expression features (avatar packs, reaction animations, celebration effects). These belong to the member, not the role. Expression is not gated by whether you hosted the Melee.
+
+
+6.5 Chatter vs. Text Groups: The Tension and the Bet
+The most honest design question in Melee is: why would anyone open Chatter when their friend group text thread already exists?
+The tension is real. Text groups are the default social reflex. Everyone is already in one. Switching to Chatter requires a context change — opening a different app, navigating to the feed. That friction is enough to kill the impulse.
+The beta has already surfaced this. Chatter drop-off in early rounds is partly low stakes, partly the text thread winning on friction alone.
+The bet Melee is making:
+Chatter is not trying to replace the text group. It is doing something the text group cannot: creating a permanent, shared, group-scoped record of the competition. A text reaction to a bad pick disappears into the scroll. A Chatter post lives in the Melee forever — attached to the pick, visible to everyone who played, retrievable as a receipt.
+The text group has the relationship. Melee has the context. The banter lands differently when everyone can see your picks, your leaderboard position, and your history — all in the same place.
+What this means for design:
+Chatter must be persistent and immediately accessible throughout the product — not buried below the bracket, not a tab to navigate to. The impulse to trash talk fires in a moment. If Chatter requires navigation, that moment dies. Persistent Chatter access is not a UI preference. It is the product's social layer working or not working.
+What this does not mean:
+Richer media (GIFs, photos, font formatting) is not the answer to low Chatter engagement. The text group already has all of that. Melee's differentiation is context and permanence, not feature parity with iMessage. Do not build toward a more complicated texting app. Build toward a better record of the competition.
+THE BET: Text groups have the relationship. Melee has the context. A Chatter post attached to a pick, a leaderboard position, and a group history is fundamentally different from a text reaction. That difference is the product's social moat — if Chatter is persistent, immediate, and frictionless enough to activate in the moment.
+	
+
+6.5 Tie-Break System
+In friend groups, identical picks are common — Cubs fans travel in packs. A tie-break system is essential and must be fully automatic. The Host selects the method when creating the Melee. No manual adjudication.
+
+
+Method
+	How it works
+	Best for
+	Prop Question (default)
+	Side question with predefined answers. Scored automatically when Host enters Outcome. Primary differentiator when main picks are identical.
+	All event types. Adds personality, impossible to game with group-think.
+	Submission Timestamp
+	Whoever submitted picks first wins the tie. Zero human involvement. Already captured in DB.
+	Simple events. Rewards decisive, early submitters.
+	Closest to the Pin
+	For numerical props (final score, total goals). System calculates distance from actual. Fully automatic once Outcome is entered.
+	Scoring-heavy sports events with a natural numerical prop.
+	
+
+WATCH CLOSELY: Tie-breaks are critical but underdesigned. Real-world usage in Phase 1 beta will reveal edge cases. Monitor closely.
+	
+
+WHY GROUPS ARE THE WHOLE PRODUCT: Without Groups, Melee is just another prediction app competing with ESPN. With Groups, Melee is the place your specific friend group goes to settle arguments. That’s a fundamentally different value proposition and a much stickier product.
+	
+
+7. AI-Powered Event Creation
+7.1 The Problem with Generic Builders
+A fully generic category builder puts all cognitive work on the user — they have to think in terms of “categories” and “options,” which is not how anyone thinks about the Oscars or a lacrosse bracket. That friction kills adoption. The event creation flow is the most important screen in the product and the biggest drop-off risk in the funnel.
+
+
+7.2 Phase 1 — AI-Assisted Event Creation (MVP)
+Instead of a generic builder, the Host describes the event in plain English and provides the hosting source. The AI drafts the full event structure — format, Stages, SubStages, Contenders — which the Host reviews and confirms before anything goes live. The review step is the guardrail against junk data.
+
+
+The creation flow:
+* Host describes the event in plain English (“We’re doing a Survivor: Season 48 pool”)
+* Host provides the hosting source (NBA, CBS, Academy Awards, etc.)
+* AI pulls structure from training knowledge + web search + the provided source domain
+* AI generates a draft event: format detected, Stages scaffolded, Contenders populated
+* Host reviews the draft and confirms — or edits — before the Melee goes live
+
+
+DESIGN PRINCIPLE: The event creation flow should feel magical, not like a chatbot form. The goal is for the Host to describe an event and see it appear — fully structured and ready to share.
+	
+
+7.3 Phase 2 — Betting Market Integration
+Prediction markets have already done the work of identifying every structured event worth predicting on and modeling its structure. Polymarket (the most open platform, on-chain) covers sports, politics, entertainment, and custom markets — and its event taxonomy maps cleanly onto Melee’s Stage/Contender schema.
+
+
+Phase 2 adds Polymarket as an event discovery and structure feed:
+* Browse upcoming events surfaced from Polymarket markets
+* One-click import of event structure into a new Melee draft
+* AI fills in Contender details from the hosting source domain
+
+
+DraftKings and traditional sportsbooks are deprioritized — closed APIs and Terms of Service risk make them fragile data sources.
+
+
+IMPORTANT: All references to Polymarket and betting markets are purely about event structure data — what events exist and how they are organized. Melee has no association with betting, wagering, or material gain. See Section 6.3 for the anti-betting brand position.
+	
+
+DESIGN NOTE: The Phase 1 AI event-creation flow should be architected with the Polymarket integration in mind. The data model for “imported event structure” is the same whether it came from AI inference or a Polymarket feed.
+	
+
+8. MVP Scope
+MVP NORTH STAR: A group of friends can create a Melee around any event, invite each other with a code, make picks, chatter, and see who was right — regardless of whether they care about the underlying event.
+	
+
+8.1 What IS in the MVP
+Platform Foundation
+Next.js frontend (migrated from single index.html)
+Supabase backend with generalized schema
+JWT-based auth (replaces hand-rolled beta password system)
+AI-assisted event creation (see Section 7)
+Two event format types: Bracket and Ballot
+Social Layer (proven in beta)
+Per-group leaderboard
+Chatter with reactions (thumbs up/down)
+View any group member’s picks
+Pick deadline with countdown
+Picks visible to group immediately on submission — pre-event transparency drives Chatter
+Activity Feed — real-time log of pick submissions and changes, separate from Chatter
+Pick change history permanently visible after deadline — the receipt
+	Groups Feature (new)
+Create a Group with invite code
+Join a Group via code
+User-defined Group name
+Group-scoped leaderboard and Chatter
+Group streak counter
+Host pick reminder (sends from user, not app)
+Two Event Types
+Bracket: The lacrosse tournament (first Melee event, migrated from beta codebase)
+Ballot: 2027 Oscars (new event type, proves generalization)
+Spectator Mode (invite-only)
+Group members can invite outsiders to watch a Melee without participating. Spectators see the leaderboard, bracket, and Chatter feed — but cannot submit picks or post to Chatter. Invite-only access only; no public spectator links at MVP.
+Spectator mode closes the viral loop: a group member shows the leaderboard to a friend who is not playing, that friend experiences the product, and becomes a Host or participant in the next Melee. The “app shown to outsider” signal observed in the beta is the behavior this feature is designed to formalize.
+
+
+Casual Engagement Hooks
+Random autofill (zero-knowledge picks)
+One prop question per event
+The casual friend wins — autofill user tops the leaderboard without watching a single game. The product’s most powerful viral moment.
+Mobile-First UX + OG Cards (see Section 4.2)
+All primary screens (Chatter, picks, leaderboard, Activity Feed) designed and QA’d on mobile first. Invite links include dynamically generated OG cards showing event name, group name, and pick deadline — so every shared link converts.
+	
+
+8.2 What is NOT in the MVP
+Scope discipline is the difference between shipping and spiraling. The following are explicitly post-MVP:
+* Native mobile apps (iOS / Android) — web-first with mobile-first design is the MVP standard (see Section 4.2)
+* Notifications / push alerts — email reminders only at MVP
+* Monetization — no payments, subscriptions, or ads
+* Public events — all Melees are private/invite-only at MVP
+* User-generated events — Host-created only at MVP
+* Additional event formats (Pick’em, Survival Pool, Ranking)
+* Social sharing beyond OG cards (full social share flows, post-game share cards) — OG cards on invite links are in MVP scope (see Section 4.2.1)
+* Advanced analytics / pick percentages
+* The prediction wall / hot takes feed
+* Confidence staking (1–5 stars) — removed; conflicts with Melee’s ethos of certainty and blind allegiance
+* Polymarket / betting market integration — Phase 2
+
+
+SCOPE DISCIPLINE: The accidental beta shipped in days as a single HTML file. The MVP should feel like a natural evolution of that — not a complete rebuild. Every feature above the line must survive the question: “does a friend group need this to have fun on night one?”
+	
+
+8.3 Migration Path from Beta
+The MVP is not a greenfield project. The beta codebase is the starting point. The migration sequence is:
+* Redesign Supabase schema to be event-generic (see Section 9)
+* Port the lacrosse tournament as the first Melee event on the new schema
+* Build Next.js frontend, migrating existing UI components
+* Replace hand-rolled auth with JWT-based auth
+* Build Groups feature
+* Build AI-assisted event creation flow
+* Build Host event-creation UI with AI draft and review step
+* Create Oscars 2027 as the second Melee event, proving generalization
+* Beta test with the existing friend group from the original tournament
+
+
+Each step ships something real. There is no long dark period where nothing works.
+
+
+9. Technical Architecture
+9.1 Stack
+Infrastructure
+AWS — primary cloud infrastructure
+Node.js — backend runtime
+PostgreSQL — primary relational database (events, stages, picks, groups, users)
+NoSQL (DynamoDB or equivalent) — high-frequency write surfaces: Chatter feed, Activity Feed, real-time events
+WebSockets (API Gateway or equivalent) — real-time leaderboard, pick change feed, Chatter on event nights
+Auth
+JWT-based auth replacing hand-rolled beta password system. Specific provider at team discretion (Cognito, Auth0, or custom).
+Group privacy
+Picks are group-scoped at the DB level from day one. Enforced in application logic and query layer — not just the UI. This is non-negotiable.
+	Why this stack
+Built and led by an experienced team with production-scale AWS infrastructure expertise. The original brief specified Next.js + Supabase for AI-assisted solo development. With a professional team, the stack is upgraded to production-grade AWS infrastructure. The schema design remains the critical decision — stack choice does not change the data model requirements.
+Real-time requirement
+Real-time is not optional. The Chatter feed, Activity Feed (pick submissions and changes), and leaderboard updates on event nights must push to connected clients without polling. WebSocket infrastructure must be in scope from day one.
+Non-negotiable schema decisions
+See Section 9.2 and the standalone Schema Reference Document. Stack is at team discretion. Schema is not.
+	
+
+9.2 Core Database Schema
+The fundamental shift from the beta is moving from hardcoded lacrosse tables to a generic event/stage/contender/pick structure. Picks are group-scoped at the DB level from day one — row-level security in Supabase enforces Group privacy at the database level, not just the UI.
+
+
+Table
+	Key Fields
+	Notes
+	Beta Equivalent
+	events
+	id, title, format, deadline, created_by
+	One row per Melee event
+	Hardcoded FR/QF/SF/FIN rounds
+	stages
+	id, event_id, parent_id, title, order
+	Recursive hierarchy via parent_id. SubStage1/2/… = stages with a parent_id.
+	FR[], QF[], SF[], FIN objects
+	contenders
+	id, stage_id, title, seed
+	Options per stage
+	Team keys in T{} object
+	picks
+	id, user_id, group_id, stage_id, contender_id
+	Group-scoped from day one. One pick per user per stage per group.
+	picks{} object
+	pick_history
+	id, pick_id, user_id, changed_at, old_contender_id, new_contender_id
+	Tracks all pick changes; visible to group members
+	Not yet built
+	outcomes
+	id, stage_id, winner_contender_id, entered_by
+	Host enters after event
+	g.result field on game objects
+	groups
+	id, name, invite_code, created_by
+	Persistent friend circles with user-defined names
+	Not yet built
+	group_members
+	id, group_id, user_id, joined_at
+	Many-to-many user-group
+	Not yet built
+	comments
+	id, group_id, user_id, body, created_at
+	Group-scoped Chatter
+	comments table (migrate to group-scoped)
+	reactions
+	id, comment_id, user_id, vote
+	Thumbs up/down
+	comment_reactions table (keep)
+	prop_picks
+	id, event_id, group_id, user_id, question_id, answer
+	Frivolous side questions
+	Not yet built
+	
+
+CRITICAL DESIGN DECISION: Get the schema right before writing a line of application code. The categories/options naming from the original brief has been updated to stages/contenders throughout. Picks are group-scoped at the DB level from day one — this is not optional.
+	
+
+10. Roadmap
+10.1 Phase Overview
+Phase
+	Focus
+	Success Metric
+	Phase 0 (complete)
+	Accidental beta live, lacrosse POC validated
+	Friend group actively using it
+	Phase 1 — MVP
+	Generalized platform, Groups, AI event creation, Oscars ballot
+	Two event types working for one friend group
+	Phase 2 — Beta
+	Polymarket integration, second friend group, NFL Pick’em, polish
+	Two independent groups using Melee
+	Phase 3 — Open Beta
+	User-generated events, public invite links, public launch, cross-event Group leaderboard (all-time record across all Melees)
+	10+ active groups across 3+ event types
+	Phase 4 — Monetization
+	Commissioner Pro, aggregate data licensing, advertiser relationships
+	First dollar of revenue
+	
+
+10.2 Phase 1 — MVP Build (Detail)
+Estimated timeline: to be confirmed with development team. Original AI-assisted estimate was 6–8 weeks. With a professional team on AWS infrastructure, timeline is at lead developer discretion.
+* Week 1–2: Schema design and DB setup. Lock the schema against the Schema Reference Document. Migrate beta data. Validate all existing functionality still works. No application code before schema is signed off.
+* Week 2–3: Core application build. Port existing beta UI into the new stack. JWT auth implementation replacing hand-rolled beta system. Real-time WebSocket infrastructure.
+* Week 3–4: Groups feature. Invite codes, group-scoped leaderboard and Chatter, streak counter, user-defined group names.
+* Week 4–5: AI event-creation flow. Plain English input, hosting source domain pull, AI draft, Host review and confirm UI.
+* Week 5–6: Oscars ballot event type. Create the 2027 Oscars as a Melee, proving the platform works beyond sports.
+* Week 6–8: Casual engagement hooks. Autofill, one prop question per event. Staggered pick reveal. Pick change visibility. Beta test with existing friend group.
+
+
+11. Monetization
+11.1 Strategy
+Melee is a consumer product first. The monetization strategy prioritizes growth and data accumulation over early revenue. The open beta is public — maximum user data is more valuable than controlled rollout at this stage.
+
+
+11.2 Revenue Hypotheses by Phase
+Phase
+	Model
+	Target
+	Notes
+	Phase 4
+	Host Pro
+	Individual Hosts
+	One user pays to unlock advanced event creation, AI features, and admin tools. Everyone else plays free. Directly monetizes the person who gets the most value. Hosting is free and full-featured — all structural customization (reveal mechanics, elimination styles, leaderboard taunts) is available to any Host at no cost.
+	Phase 4
+	Member Expression
+	All Members
+	Any member purchases personal expression features — avatar packs, reaction animations, celebration effects. These belong to the individual, not the role. The addressable base is every engaged member, not one Host per Melee.
+	Phase 4
+	Advertising
+	Brands / Media
+	Advertiser relationships via founder network once user numbers are meaningful.
+	Phase 5
+	Aggregate Data Licensing
+	Media, Brands, Pollsters
+	Prediction data across millions of picks is valuable to media companies, brands, and eventually betting markets. Requires clean data hygiene from day one.
+	Phase 5+
+	White-Label / B2B
+	Media brands, Fan communities, Office pools
+	Branded Melee for external organizations. High revenue per customer, expensive to sell. Distant option.
+	
+
+DATA ASSET: The aggregate prediction data Melee accumulates — who people think will win, how groups diverge from consensus, pick change patterns — is a long-term strategic asset. Build clean data hygiene from day one so it is sellable in Phase 5.
+	11.3 The B2B and Media Partnership Opportunity
+The long-term B2B opportunity for Melee is significant — but the path to it is staged, and the timing matters.
+The core insight: media companies have established that second-screen engagement increases primary viewership, not cannibalizes it. NBC Sports, ESPN, Turner — they understand this. A branded Melee for the Kentucky Derby, the Oscars, the Masters, or a political debate bracket is a real product with real buyers who have real budgets. The product encourages engagement with the primary broadcast. It does not compete with it.
+Branded partnership, not white-label:
+The right model is “Presented by NBC Sports” — not a white-label product that builds the media partner’s brand at the expense of Melee’s. White-label hides the product. A branded partnership builds both. Media partners get the engagement mechanic. Melee gets the distribution.
+The staged path to this conversation:
+Stage 1 — Consumer traction creates the story. No major media organization will respond to a cold pitch from an early-stage app. The entry point is a number that travels — not downloads, but a behavior story. “Users who played one Melee averaged three more within six months” is the kind of signal that gets a media buyer’s attention.
+Stage 2 — Start with a smaller media partner. A regional sports network, a niche publication, a sports podcast with a passionate audience — these organizations have the same underlying need and a much shorter procurement cycle. One successful branded partnership at the mid-tier level is the proof of concept that gets Melee into the room with NBC.
+Stage 3 — The inbound flip. The goal is not to pitch NBC. It is to build something good enough that someone at NBC who is also a Melee user makes an internal introduction. Every Host is a potential enterprise champion if they happen to work at a media company. The consumer product is the sales team.
+TIMING: The B2B opportunity is real but distant. Consumer traction is the prerequisite — not because the product needs to be proven to us, but because it needs to be proven to the buyer. Document the thesis now. Build toward it in Phase 4+. Let the consumer numbers make the pitch.
+	
+
+
+
+Models explicitly ruled out: confidence staking fees (removed from product), transaction fees on stakes (legally complex, distraction), waitlist/invite-only beta (slows network effect growth).
+
+
+12. Host Experience
+The first question anyone asks about Melee is: “is the Host stuck doing all the hard work?” The answer is no — and the brief needs to say so clearly. The Host experience is designed around two modes: Fast and Fun. Phase 1 delivers Fast. Phase 2 delivers Fun. Neither requires the Host to do hard work.
+
+
+12.1 The Two Host Modes
+FAST (Phase 1 — MVP)
+The Host describes the event in plain English. The AI scaffolds the entire structure — format, Stages, SubStages, Contenders — from training knowledge, web search, and the hosting source domain. The Host reviews a draft and confirms. The Melee is live.
+Sensible, opinionated defaults handle everything else. The Host doesn’t make a single customization decision to run a great Melee. Fast means live in minutes.
+Host tasks in Phase 1:
+1. Describe the event
+2. Confirm the AI draft
+3. Share the invite code
+4. Enter Outcomes after the event
+	FUN (Phase 2)
+The Host gets a simple, visual setup screen where they pick their Melee’s personality in a few taps. It should feel like setting up a party, not filling out a form. Customization is an option, never a requirement.
+Customization options are set per-Melee — the tone of an Oscars ballot is different from an NFL bracket. The Host sets the culture of each specific Melee.
+Host customization options:
+Elimination style (Ghost, Skeleton, LOSER stamp, etc.)
+Pick reveal mechanic (slow drip, worst-to-best, all at once)
+Streak break penalty (visual consequence for breaking group streak)
+Leaderboard taunts (custom message under last place)
+Winner celebration (what a correct pick looks like when it lands)
+	
+
+12.2 Addressing the Weakness
+THE COUNTER: “Is the Host stuck doing all the hard work?”No. The AI does the heavy lifting on setup. Sensible defaults handle the rest. In Phase 1, a Host can have a live Melee in under five minutes with four steps: describe, confirm, share, and enter results. In Phase 2, customization turns setup into a fun moment — the Host is the DJ, not the roadie.
+	
+
+12.3 Monetization Angle
+Host customization unlocks a natural monetization surface — but the right target is every engaged member, not just the Host. The brief originally framed expression features (avatar packs, reaction animations, humiliation effects) as a Host Pro unlock. That framing creates a two-tier experience inside the group: one person can make the Melee feel alive, everyone else is just along for the ride. That is a hierarchy the product should actively resist.
+The revised model separates structural control from personal expression. Hosting is free and full-featured — all configuration options (reveal mechanics, elimination styles, leaderboard taunts) are available to any Host at no cost. Expression features belong to individuals, not roles. Any member can buy an avatar pack or a signature reaction animation. Those features travel with the person across every group they are in and every Melee they play.
+This also has better monetization geometry. Host Pro asks one person per Melee to pay. Member Expression asks every engaged member. In a group of eight, the addressable base is 8x larger — and the purchase is personal and portable, not tied to a specific hosting moment. Host Pro still makes sense as the unlock for advanced creation tools and AI features (things only the Host uses). But the fun, expressive purchases are a member-level product.
+
+
+13. Summary
+MELEE IN ONE PARAGRAPH: Melee is a social prediction platform where friend groups compete around any structured event — sports brackets, award show ballots, reality TV eliminations, and more. It was discovered, not designed: an accidental beta built for a single friend group proved that the social layer is more engaging than the event itself. Melee generalizes that engine, adds Groups as the core social unit, AI-powered event creation as the onboarding unlock, and opens the platform to any event. The MVP proves generalization with two events: the original lacrosse tournament and a 2027 Oscars ballot. Everything else follows.
+	
+
+What makes Melee different
+Friend groups, not strangers
+Any event, not just sports
+User-generated platform, not curated content
+Chatter as a core feature, not an afterthought
+Accountability — your words and picks are on record
+AI-powered event creation — describe it, Melee builds it
+	What the beta proved
+The social layer drives more engagement than the event
+Casual friends play if the barrier is low enough
+Chatter and reactions are the most-used features after picks
+A single HTML file can validate a product concept completely
+The hard part is the engine, not the content
+	
+
+  
+
+MELEE
+3.4 The Multi-Group Reality
+The brief's early framing implicitly assumed a single stable friend group — the lacrosse crew — as the repeating unit of Melee. Beta observation has corrected this. The more accurate picture is that each person sits at the center of several overlapping groups, and the right group for each Melee is different.
+The Kentucky Derby Melee has different people in it than the Oscars Melee, which has different people than the NFL Draft Melee. Group composition is event-dependent, not fixed.
+This makes the product bigger, not smaller:
+Every new event is a fresh invitation surface — reaching people who have never seen Melee before. Growth is structurally baked in: the Host is not inviting the same eight people every time. They are pulling in different slices of their social graph depending on what the event is.
+The unit of loyalty is the Host, not the group:
+A Host who runs a lacrosse Melee with college friends and an Oscars Melee with work friends is a retained user regardless of whether those two groups overlap. Retention strategy should be built around Hosts, not groups.
+Every invite is a cold introduction to Melee:
+Because group composition shifts per event, new participants are constantly entering the product for the first time. Onboarding must be frictionless at every entry point, not just the first one.
+MENTAL MODEL CORRECTION: Melee does not retain groups. It retains Hosts. A Host with three different friend groups for three different events is three acquisition events per year — and each one reaches new people. Design the Host experience accordingly.
+	
+
+You're watching anyway. Now watch together.

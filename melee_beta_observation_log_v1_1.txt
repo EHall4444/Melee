@@ -1,0 +1,283 @@
+﻿MELEE
+Beta MVP Observation Log
+Bracket Battle · NCAA DI Men's Lacrosse Championship · May 2026
+Version 1.0  ·  Living Document  ·  Companion: melee_design_thinking_v1.4.docx
+RAW NOTES ONLY. This is the scratchpad — unfiltered observations from the Bracket Battle beta. Synthesis and pattern recognition happen in the Design Thinking doc. The only rule: keep observations and inferences in separate columns. What you saw goes in Observation. What you think it means goes in Notes / Inference.
+	
+
+How to Use This Log
+Column
+	What goes here
+	Date
+	Date of observation (or date range if retroactive)
+	Source
+	Who / what generated this: named persona (Host, Casual Friend, Expert, Outsider) or 'App data' for metrics
+	Type
+	OBSERVATION · INFERENCE · QUESTION · SIGNAL
+	Observation
+	What you directly saw, heard, or measured. No interpretation.
+	Notes / Inference
+	What you think it means. Hypotheses. Things to watch for. Flag clearly as inference.
+	
+
+TYPE key:  OBSERVATION = what happened, directly witnessed or measured  ·  INFERENCE = interpretation of an observation (flag these)  ·  QUESTION = something this raises that needs answering  ·  SIGNAL = a moment that directly maps to a What Wows or What Works item in the design thinking doc
+	
+
+Observation Log
+Early rounds  May 2026
+⚠ CONFOUND: Round 1 data is unreliable for engagement conclusions.
+The product was actively being developed and shipped during Round 1. Bug fixes, UI changes, and gameplay discussions were happening live in Chatter throughout the observation window. Users were reacting to a moving target, not a stable product. This almost certainly suppressed organic engagement and inflates the host post count (many host posts were admin and development announcements, not natural host behavior). The Chatter drop-off observation cannot be cleanly attributed to low early-round stakes vs. development interruption — the two effects cannot be separated from this data.
+The Quarterfinals are effectively Round 1 for observation purposes. Stable product, real stakes, users who know how it works. Draw no conclusions from Round 1 engagement data. Use it for context only.
+	
+
+Date
+	Source
+	Type
+	Observation
+	Notes / Inference
+	May 2026
+	App data
+	OBSERVATION
+	100% bracket save rate across all personas — fringe competitive friend, total neophyte, invested expert, total outsiders (sister + niece).
+	Onboarding is working across all user types. Core action completion is not the problem.
+	May 2026
+	App data
+	SIGNAL
+	50% Chatter rate (1+ posts) on day one with zero prompting.
+	Social layer is working unprompted. This is the baseline. Do not prompt Chatter during the tournament — it would contaminate this number.
+	May 2026
+	App data
+	OBSERVATION
+	10% Chatter rate at 2+ posts. Power users self-identified on day one.
+	Watch these users closely throughout the tournament. They are the Chatter engine.
+	May 2026
+	Host
+	OBSERVATION
+	One user requested a comment edit function.
+	By design: no edit. Words stand. Resolved: confirmation step before posting is the UX solution.
+	May 2026
+	Group behavior
+	OBSERVATION
+	Chatter has dropped off in early rounds of the tournament.
+	Likely early-round effect, not product failure. Low stakes = low drama = low Chatter. Watch for spike after upsets and leaderboard shifts. Do not draw conclusions until semifinals.
+	May 2026
+	Group behavior
+	INFERENCE
+	Users may be opting for text over Chatter.
+	INFERENCE ONLY — not directly observed. Simpler explanation: texting is the default social reflex; the group already has a thread and switching to Chatter has friction. Do NOT interpret as demand for richer media (gifs, photos, font formatting) without direct user evidence. Survey Q2 will help diagnose.
+	May 2026
+	Expert
+	SIGNAL
+	User — lacrosse fan, infrequent contact — encountered a login issue. When informed it was being fixed, responded unprompted: “I just like the banter.”
+	User has genuine event knowledge and real bracket stakes. Primary stated motivation was the social layer, not the picks or leaderboard. Login friction did not kill engagement — pull-back survived a technical barrier. Watch whether he returns after the fix and whether he chatters when he does.
+	May 2026
+	Host
+	SIGNAL
+	No timestamp visible on Chatter posts. In a multi-day event, users cannot orient themselves temporally — a comment from two days ago looks identical to one from five minutes ago.
+	The timestamp problem only exists if the product is working. Users are returning to Chatter across multiple days — that is the real signal. Proposed UX resolution: timestamp on each Chatter post. Resolve in MVP build.
+	May 2026
+	Close Friend / Expert
+	SIGNAL
+	One unprompted Chatter post following Army’s elimination. Post came from the user who had picked Army to win. No post from any winning picker.
+	Loser posted, not winner. Chatter is functioning as a release valve for the losing side. Winners let the leaderboard speak. Watch whether this pattern holds: if losers consistently drive Chatter, it has implications for how the UI surfaces the feed after a result drops — the moment of loss may be the product’s best activation trigger.
+	May 8–12
+	App data / Chatter export
+	OBSERVATION
+	Early-round Chatter analysis (PRELIMINARY — do not draw conclusions until semifinals): 55 total posts across 5 days. Excluding host (ehall), 26 organic posts from 9 non-host users. 6 of 9 non-host users posted at least once (67% organic participation rate). testes_73 led non-host posting with 11 posts.
+	INFERENCE: Healthy baseline but host-dependent. ehall drove 53% of all posts. Without host facilitation, organic rate and volume drop significantly. The product needs to generate moments that prompt posting — not rely on a highly engaged host. Do not conclude until quarterfinals and beyond.
+	May 8–12
+	Chatter export
+	OBSERVATION
+	Post type breakdown (non-host, early rounds): trash talk / banter 46%, self-deprecation / casual voice 19%, product feedback disguised as banter 15%, unsolicited request for money stakes 8%, other 12%.
+	Product feedback hidden inside jokes: picks visibility table, edit function, payment app. All genuine requests. testes_73’s request for a table showing who picked what (“would materially streamline my trash talking game”) is a direct feature request for pick transparency UI. Flag for MVP design.
+	May 8–12
+	Chatter export + persona context
+	SIGNAL
+	petegwill (neighbor, zero lacrosse knowledge, zero Chatter posts) led the leaderboard after round one. Nobody announced this. The group never reacted to it in Chatter.
+	This is the product’s core thesis — casual friend winning — playing out silently. The moment happened and nobody knew. The product needs to surface and amplify this: a leaderboard notification, a Chatter prompt, something. Watch whether petegwill holds position through the quarters. If he does and the group finds out, record the reaction in full.
+	May 8–12
+	Chatter export + persona context
+	INFERENCE
+	Three knowledgeable silent users (flagdown, edesjardins, magnum) posted little or nothing despite having strong domain knowledge and opinions.
+	INFERENCE: Silent experts need a trigger. They have opinions — they just didn’t have a moment that surfaced those opinions publicly. Pick transparency table (who picked what for the next matchup) would activate exactly this group. Watch whether upsets and leaderboard shifts pull them in during later rounds.
+	May 8–12
+	alastairlovespapa (6yo son)
+	SIGNAL
+	A 6-year-old user made all picks by mascot after being told team names. His father posted an apology to Chatter. Mascot images were not available in the UI.
+	Mascot images are a legitimate product requirement, not cosmetic. Picking by mascot is a real zero-knowledge strategy and the resulting Chatter (“I apologize for my son’s picks”) is some of the best content in the dataset. Adds personality and gives non-expert users a genuine decision framework. Flag for Jeff’s team.
+	May 9
+	speabsgmailcom + testes_73
+	SIGNAL
+	speabsgmailcom asked unprompted for a $10 buy-in. testes_73 supported it and tagged jeffycakes to build a payment app. Neither was prompted. Both are former lacrosse players and competitive personalities.
+	Organic demand for stakes from two users independently. Nobody suggested this. The social pressure mechanic is working well enough that users want to raise the temperature. Melee’s anti-bet brand position holds — this is bragging rights competition, not gambling. But the desire for stakes is worth noting for Host Pro monetization thinking.
+	
+
+Mid-rounds & upsets  To be completed
+Date
+	Source
+	Type
+	Observation
+	Notes / Inference
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+Semifinals & finals  To be completed
+Date
+	Source
+	Type
+	Observation
+	Notes / Inference
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+User Personas — Beta Group
+Username
+	Persona type
+	Posts
+	Who they are
+	Early-round signal
+	petegwill
+	Casual competitor
+	0 (lurker)
+	Neighbor. Loves sports and competition. Knows virtually nothing about lacrosse.
+	Led the leaderboard after round one in silence. Zero Chatter. The casual friend wins thesis playing out without anyone noticing. Watch closely through quarters.
+	alastairlovespapa
+	Total outsider (age 6)
+	1
+	Host’s 6-year-old son. Picked entirely by mascot preference after being told team names.
+	Mascot images are a real product requirement. His dad’s apology post is the best Chatter in the dataset. Zero-knowledge entry working at its most extreme.
+	roberto
+	Expert / lapsed contact
+	5
+	Old friend, not in frequent contact. Rabid lacrosse fan and former player.
+	Socially engaged, calls people out by name. Georgetown upset triggered a reaction post. Classic loser-posts pattern confirmed.
+	testes_73
+	Expert / power user
+	11
+	One of host’s best friends and former lacrosse teammate. Knowledgeable but doesn’t follow closely.
+	Led non-host Chatter. Every post useful: trash talk, feature requests disguised as jokes, welcoming new users. Effectively the product’s community manager. Keep in MVP beta.
+	speabsgmailcom
+	Expert / trash talker
+	4
+	Friend of a friend. Former lacrosse player. Very competitive, loves trash talk.
+	Unprompted $10 buy-in request. Enters chat with strong opinions. Exactly the persona Chatter is built for.
+	magnum
+	Casual expert / silent
+	0
+	One of host’s best friends. Sports fan, likes lacrosse but doesn’t follow closely.
+	Silent so far. Has enough knowledge to have opinions. Needs a trigger — likely a picks transparency table or a leaderboard shift that affects him directly.
+	jeffycakes
+	Casual friend / builder
+	1
+	Good friend, former player, tech entrepreneur, helping build Melee.
+	One post. Appropriately hands-off as a player. Invaluable as a builder.
+	dudesweet
+	Casual fan / silent
+	0
+	Best friend. Loves sports, watches lacrosse, never played, doesn’t follow the sport.
+	Silent so far. Watched games but didn’t post. Needs something to react to publicly.
+	gretchelizabeth
+	Total outsider
+	0
+	Host’s sister. Knows nothing about the sport. Registered to be nice.
+	Saved a bracket. That’s the win for this persona. Don’t expect more. Survey Q6/Q7 will reveal whether she felt included.
+	edesjardins
+	Young expert / silent
+	0
+	Magnum’s son, age 22. Very knowledgeable, currently plays at club level.
+	Silent despite being the most current player in the group. May need to feel the stakes get real before posting. Watch in quarters.
+	flagdown
+	Expert / low volume
+	1
+	Best friend, former player, coach, player dad, and official. Very knowledgeable.
+	One late post about a high school game — engaged on his own terms. Expert who doesn’t need validation from the group. Will post when something earns a reaction.
+	
+
+Post-Tournament Survey Findings
+To be completed after survey is sent and responses collected. See survey design in melee_design_thinking_v1.4.docx.
+	
+
+Signals Still Pending
+Signal
+	What to watch for
+	Status
+	Chatter pull-back
+	Unprompted posts after picks lock; reactions from users who are losing; app activity between games
+	Pending
+	Casual fan engagement
+	Chatter from non-lacrosse fans; leaderboard checking; drop-off after picks submitted
+	Pending
+	Casual friend wins
+	Autofill user topping the leaderboard. Record group reaction — this is the product's most important viral signal.
+	Pending
+	Chatter spike on upset
+	Does Chatter fire after a meaningful result or leaderboard shift? Who posts first — winner or loser?
+	Pending
+	App shown to outsider
+	Does anyone screenshot the leaderboard or show the app to someone not playing? Viral loop signal.
+	Pending
+	Host friction moment
+	Any moment the Host didn't know what to do or had to figure something out. One-question text ask post-tournament.
+	Pending
+	
+
+MELEE  ·  Beta MVP Observation Log  ·  Living  ·  May 2026
+You're watching anyway. Now watch together.

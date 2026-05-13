@@ -1,0 +1,656 @@
+﻿MELEE
+Schema Reference Document
+For the MVP Development Team  ·  May 2026  ·  Version 1.0
+Stack: AWS · Node.js · PostgreSQL · NoSQL
+This document is the authoritative schema reference for the Melee MVP build. Stack choices are at team discretion. Schema decisions are not. No application code before the schema is reviewed and signed off. The critical decisions in this document were made deliberately and must survive the build intact.
+	
+
+1. What Melee Is — The One-Page Version
+	
+
+Melee is a social prediction platform where private friend groups compete around any structured event — sports brackets, award ballots, reality TV pools, and more. The social layer (Chatter, leaderboard, pick transparency) drives more engagement than the event itself.
+The MVP proves generalization with two events: the existing NCAA lacrosse bracket (migrated from beta) and a 2027 Oscars ballot (new event type).
+
+
+Key concepts the schema must support
+Term
+	Definition
+	Melee
+	A single competition event. One row in the events table.
+	Group
+	A persistent friend circle. Scoped leaderboard, Chatter, and history. User-defined name.
+	Host
+	The user who creates and manages a Melee. Enters Outcomes after the event.
+	Stage
+	A discrete unit of competition within a Melee. Recursive via parent_id — supports bracket rounds, Oscar categories, Survivor episodes.
+	Contender
+	The options available to pick within a Stage. Teams, nominees, contestants.
+	Pick
+	A user's selection. Group-scoped from day one. One pick per user per Stage per Group.
+	Outcome
+	The result of a Stage, entered by the Host. Triggers scoring.
+	Chatter
+	Group-scoped social feed. Comments + reactions. Visible only within the Group.
+	Activity Feed
+	Real-time log of pick submissions and changes. Separate from Chatter. Visible to Group members.
+	
+
+2. Non-Negotiable Schema Decisions
+	
+
+These decisions were made deliberately and must not be undone during build. Each has a rationale. If you disagree with a decision, have the conversation before writing code — not after.
+	
+
+Decision
+	Rationale
+	Risk if violated
+	Picks are group-scoped at the DB level from day one
+	A pick is not just user + stage + contender. It is user + group + stage + contender. Group privacy is enforced in the query layer, not just the UI. A user in two groups makes independent picks for each.
+	Privacy breach. Users see each other's picks across groups. Catastrophic and painful to retrofit.
+	pick_history table exists from day one — not added later
+	Pick changes are visible to the group as a social mechanic (the 'receipt'). This is a core product feature, not a nice-to-have. The table must exist before the first pick is ever written.
+	Can never reconstruct history retroactively. The feature simply doesn't exist for early users.
+	Stage hierarchy is recursive via parent_id on the stages table
+	Brackets have rounds containing matchups. Oscars have category groups containing categories. Survivor has episodes containing tribal councils. One table with parent_id handles all of these without schema changes per event type.
+	Hardcoded hierarchy means a new schema migration for every new event format.
+	Naming: stages/contenders/outcomes throughout — not categories/options/results
+	Domain-neutral terminology works across sports, entertainment, and any future event type. Format-specific labels (Round 1, Best Picture, Episode 7) are user-facing UI strings defined by the Host — not schema field names.
+	Inconsistent naming creates confusion across teams and makes the codebase harder to extend.
+	Cross-event Group leaderboard schema supported from day one
+	The all-time Group record across every Melee is a Phase 3 feature — but the schema must support it from day one. It cannot be retrofitted without migrating all historical picks.
+	Phase 3 feature requires expensive migration of all historical data.
+	
+
+3. Core Tables — PostgreSQL
+	
+
+The following tables form the relational core of Melee. All are PostgreSQL. High-frequency write surfaces (Chatter, Activity Feed) may be handled by the NoSQL layer — see Section 4.
+
+
+events
+One row per Melee. The top-level entity.
+Column
+	Type
+	Notes
+	id
+	UUID PK
+	
+
+	title
+	VARCHAR
+	Host-defined event name. e.g. '2027 Oscars', 'NCAA Lacrosse 2026'
+	format
+	VARCHAR
+	Bracket | Ballot | Pickem | SurvivalPool | Ranking. Determines UI rendering.
+	deadline
+	TIMESTAMPTZ
+	Picks lock at this moment. After deadline, pick_history is permanently visible to Group.
+	created_by
+	UUID FK → users
+	The Host.
+	status
+	VARCHAR
+	draft | active | locked | completed
+	created_at
+	TIMESTAMPTZ
+	
+
+	
+
+stages
+Recursive hierarchy via parent_id. One table handles all event formats without schema changes.
+Column
+	Type
+	Notes
+	id
+	UUID PK
+	
+
+	event_id
+	UUID FK → events
+	
+
+	parent_id
+	UUID FK → stages
+	NULL for top-level stages. Set for sub-stages. Enables infinite nesting.
+	title
+	VARCHAR
+	User-facing label. 'Round of 16', 'Best Picture', 'Episode 7 Tribal Council'
+	stage_order
+	INTEGER
+	Sort order among siblings (same parent_id and event_id).
+	scoring_weight
+	DECIMAL
+	Optional. Allows later rounds / categories to be worth more points.
+	
+
+Stage hierarchy examples
+Format
+	Stage (parent_id = NULL)
+	SubStage1 (parent_id = Stage)
+	SubStage2 (parent_id = SubStage1)
+	Bracket
+	Round of 16
+	Matchup: Team A vs Team B
+	—
+	Ballot (Oscars)
+	Best Picture
+	— (single pick per category)
+	—
+	Survival Pool
+	Episode 7
+	Tribal Council
+	Individual Immunity Challenge
+	Pick'em
+	Week 12
+	Sunday Games
+	Night Game
+	
+
+contenders
+The options available to pick within a Stage. Teams, nominees, contestants — whatever the event format requires.
+Column
+	Type
+	Notes
+	id
+	UUID PK
+	
+
+	stage_id
+	UUID FK → stages
+	
+
+	title
+	VARCHAR
+	e.g. 'Duke Blue Devils', 'The Brutalist', 'Survivor: Dee Valladares'
+	seed
+	INTEGER
+	Optional. Bracket seeding. NULL for non-bracket formats.
+	metadata
+	JSONB
+	Flexible field for format-specific data: logo_url, team_record, nomination_details, etc.
+	
+
+picks
+GROUP-SCOPED FROM DAY ONE. This is the most important table in the schema. A pick is not user + stage + contender. It is user + group + stage + contender.
+	
+
+Column
+	Type
+	Notes
+	id
+	UUID PK
+	
+
+	user_id
+	UUID FK → users
+	
+
+	group_id
+	UUID FK → groups
+	Group-scoping enforced here, not just in UI.
+	stage_id
+	UUID FK → stages
+	
+
+	contender_id
+	UUID FK → contenders
+	The user's current pick.
+	submitted_at
+	TIMESTAMPTZ
+	Submission timestamp. Used for Submission Timestamp tie-break method.
+	updated_at
+	TIMESTAMPTZ
+	Last pick change. Used to drive Activity Feed.
+	UNIQUE
+	(user_id, group_id, stage_id)
+	Enforces one pick per user per stage per group at DB level.
+	
+
+pick_history
+Must exist from day one. Cannot be added retroactively. Pick change history is visible to the Group after the deadline — this is a core social feature, not a log.
+	
+
+Column
+	Type
+	Notes
+	id
+	UUID PK
+	
+
+	pick_id
+	UUID FK → picks
+	
+
+	user_id
+	UUID FK → users
+	Denormalized for query performance.
+	group_id
+	UUID FK → groups
+	Denormalized for query performance.
+	old_contender_id
+	UUID FK → contenders
+	What they had before the change.
+	new_contender_id
+	UUID FK → contenders
+	What they changed to.
+	changed_at
+	TIMESTAMPTZ
+	
+
+	
+
+outcomes
+The result of a Stage. Entered by the Host. Triggers scoring calculation.
+Column
+	Type
+	Notes
+	id
+	UUID PK
+	
+
+	stage_id
+	UUID FK → stages
+	UNIQUE — one outcome per stage.
+	winner_contender_id
+	UUID FK → contenders
+	The correct answer.
+	entered_by
+	UUID FK → users
+	Must be the Host of the parent event.
+	entered_at
+	TIMESTAMPTZ
+	
+
+	
+
+groups
+Persistent friend circles. A Group can enter any number of Melees. Group composition is event-dependent — the same person may be in different Groups for different events.
+Column
+	Type
+	Notes
+	id
+	UUID PK
+	
+
+	name
+	VARCHAR
+	User-defined. 'The Infallible Ones', 'Film Bros', etc. Belongs to the Group, not the Host.
+	invite_code
+	VARCHAR UNIQUE
+	Short human-readable code. e.g. CREW-4829. Used for Group join flow.
+	created_by
+	UUID FK → users
+	The user who created the Group. Initial Host.
+	created_at
+	TIMESTAMPTZ
+	
+
+	streak_count
+	INTEGER
+	Number of consecutive Melees all members participated in. Resets on break.
+	
+
+group_members
+Many-to-many join table between users and groups.
+Column
+	Type
+	Notes
+	id
+	UUID PK
+	
+
+	group_id
+	UUID FK → groups
+	
+
+	user_id
+	UUID FK → users
+	
+
+	joined_at
+	TIMESTAMPTZ
+	
+
+	role
+	VARCHAR
+	member | host. Host can enter Outcomes and send reminders.
+	UNIQUE
+	(group_id, user_id)
+	A user can only be in a Group once.
+	
+
+users
+Standard user table. Auth implementation at team discretion (Cognito, Auth0, custom JWT).
+Column
+	Type
+	Notes
+	id
+	UUID PK
+	
+
+	email
+	VARCHAR UNIQUE
+	
+
+	display_name
+	VARCHAR
+	User-chosen display name within groups.
+	avatar_url
+	VARCHAR
+	Optional. Phase 2+ expression feature.
+	created_at
+	TIMESTAMPTZ
+	
+
+	auth_provider
+	VARCHAR
+	JWT | google | apple | etc. At team discretion.
+	
+
+prop_questions & prop_picks
+Prop questions are frivolous side questions per event ('Who cries first?', 'Best Dressed?'). They serve as the default tie-break mechanism and as casual engagement hooks for non-expert users.
+Column
+	Type
+	Notes
+	prop_questions
+	
+
+	
+
+	id
+	UUID PK
+	
+
+	event_id
+	UUID FK → events
+	
+
+	question_text
+	VARCHAR
+	e.g. 'Who cries first during their acceptance speech?'
+	options
+	JSONB
+	Array of answer strings. ['Presenter', 'Winner', 'Audience member', 'No one']
+	correct_option
+	VARCHAR
+	Set by Host when entering Outcomes.
+	
+
+	
+
+	
+
+	prop_picks
+	
+
+	
+
+	id
+	UUID PK
+	
+
+	question_id
+	UUID FK → prop_questions
+	
+
+	user_id
+	UUID FK → users
+	
+
+	group_id
+	UUID FK → groups
+	Group-scoped.
+	answer
+	VARCHAR
+	The user's answer.
+	submitted_at
+	TIMESTAMPTZ
+	
+
+	
+
+4. High-Frequency Write Surfaces — NoSQL
+	
+
+The following surfaces generate high write volume on event nights and are better suited to a NoSQL store (DynamoDB or equivalent) than PostgreSQL. Final decision at team discretion — what matters is that these surfaces are treated as distinct from the relational core.
+
+
+comments (Chatter)
+Chatter is group-scoped. A comment is only ever visible to members of the Group it was posted in. This must be enforced at the data layer.
+	
+
+Field
+	Type
+	Notes
+	id
+	UUID
+	
+
+	group_id
+	UUID
+	Partition key. All queries filter by group_id first.
+	event_id
+	UUID
+	Optional filter — surface Chatter specific to a Melee.
+	user_id
+	UUID
+	
+
+	body
+	STRING
+	Comment text. No edit after posting — by design.
+	created_at
+	TIMESTAMP
+	Sort key within group partition.
+	
+
+Design note: No edit function. This is a deliberate product decision. Words stand. A confirmation step before posting is the UX guardrail — not an edit function after.
+
+
+reactions
+Field
+	Type
+	Notes
+	id
+	UUID
+	
+
+	comment_id
+	UUID
+	
+
+	user_id
+	UUID
+	
+
+	vote
+	INTEGER
+	1 (thumbs up) | -1 (thumbs down). One reaction per user per comment.
+	created_at
+	TIMESTAMP
+	
+
+	
+
+activity_feed
+Real-time log of all pick submissions and changes. Separate from Chatter. Visible to all Group members. Drives the 'pick change receipt' social mechanic.
+Field
+	Type
+	Notes
+	id
+	UUID
+	
+
+	group_id
+	UUID
+	Partition key.
+	event_id
+	UUID
+	
+
+	user_id
+	UUID
+	Who made the change.
+	activity_type
+	STRING
+	pick_submitted | pick_changed | outcome_entered | member_joined
+	payload
+	JSON
+	Flexible. For pick_changed: {stage_id, old_contender_id, new_contender_id}
+	created_at
+	TIMESTAMP
+	Sort key.
+	
+
+5. Real-Time Requirements
+	
+
+Real-time is not optional. The Chatter feed, Activity Feed, and leaderboard must push to connected clients without polling on event nights. WebSocket infrastructure must be in scope from day one.
+	
+
+Surface
+	Trigger
+	Who receives
+	Chatter feed
+	New comment or reaction posted
+	All connected members of the Group
+	Activity Feed
+	Pick submitted or changed (before deadline)
+	All connected members of the Group
+	Leaderboard
+	Outcome entered by Host
+	All connected members of the Group
+	Pick lock notification
+	Deadline reached
+	All members of the Group
+	Spectator feed
+	Any of the above
+	Invited spectators with read-only access
+	
+
+AWS implementation options: API Gateway WebSockets, AppSync subscriptions, or a dedicated WebSocket server on EC2/ECS. Final choice at team discretion.
+
+
+6. Tie-Break System
+	
+
+Identical picks are common in friend groups. Cubs fans travel in packs. The tie-break method is selected by the Host at event creation. All methods are fully automatic — no manual Host adjudication.
+
+
+Method
+	How it works
+	Schema requirement
+	Prop Question (default)
+	A side question with predefined options. Correct answer scored when Host enters Outcome. Differentiates identical main picks automatically.
+	prop_questions + prop_picks tables (Section 3)
+	Submission Timestamp
+	Whoever submitted picks first wins the tie. Zero human involvement. Already captured in picks.submitted_at.
+	picks.submitted_at (already in core schema)
+	Closest to the Pin
+	For numerical props (final score, total goals, box office). System calculates distance from actual. Fully automatic once Outcome is entered.
+	prop_questions with numeric answer type + scoring logic
+	
+
+Store the selected tie-break method on the events table: add a tiebreak_method VARCHAR column with value 'prop_question' | 'submission_timestamp' | 'closest_to_pin'.
+
+
+7. Spectator Mode
+	
+
+Invited spectators can view a Group's Melee — leaderboard, bracket/ballot, and Chatter feed — without participating. They cannot submit picks or post to Chatter. Invite-only; no public spectator links at MVP.
+
+
+Table
+	Column
+	Notes
+	spectators
+	
+
+	New table. Separate from group_members.
+	
+
+	id UUID PK
+	
+
+	
+
+	group_id UUID FK → groups
+	
+
+	
+
+	event_id UUID FK → events
+	Spectator access is per-Melee, not per-Group.
+	
+
+	invited_by UUID FK → users
+	Must be a group member.
+	
+
+	spectator_email VARCHAR
+	The invited spectator's email. May not have a Melee account yet.
+	
+
+	invite_token VARCHAR UNIQUE
+	Single-use token for spectator access. Expires after use or deadline.
+	
+
+	accessed_at TIMESTAMPTZ
+	NULL until spectator first uses the link.
+	
+
+Spectator access is strictly read-only. Enforce at the API layer — spectator tokens must never grant write access to picks, comments, or reactions.
+	
+
+8. Data Hygiene — The Long-Term Asset
+	
+
+Melee's aggregate prediction data — who people think will win, how groups diverge from consensus, pick change patterns — is a long-term strategic asset. Phase 5 revenue hypothesis: licensing this data to media companies, brands, and pollsters.
+This requires clean data hygiene from day one. Specific requirements:
+
+
+Requirement
+	Implementation note
+	All picks are timestamped
+	picks.submitted_at and picks.updated_at — never null.
+	All pick changes are recorded
+	pick_history table populated on every UPDATE to picks.contender_id.
+	Events have explicit format labels
+	events.format is a controlled vocabulary — not free text.
+	Group membership changes are logged
+	group_members.joined_at is always set. Consider a group_member_history table for departures.
+	Outcomes are timestamped and attributed
+	outcomes.entered_at and outcomes.entered_by — never null.
+	No hard deletes
+	Use soft deletes (deleted_at TIMESTAMPTZ) on users, groups, events. Preserve historical pick data even if a user leaves.
+	
+
+9. Open Schema Questions for the Build Team
+	
+
+These decisions were deferred intentionally. They require input from the build team before or during Week 1.
+
+
+Question
+	Options
+	Status
+	Chatter and Activity Feed: PostgreSQL or NoSQL?
+	PostgreSQL is simpler. NoSQL (DynamoDB) scales better for high-frequency writes on event nights. Hybrid is acceptable — relational for picks/scores, NoSQL for feeds.
+	Open — team decision
+	Auth provider?
+	AWS Cognito (native to stack), Auth0, Clerk, or custom JWT. Must support email + social login (Google, Apple) in Phase 2.
+	Open — team decision
+	Scoring: computed on read or materialised?
+	Compute leaderboard score at query time (simple, always accurate) vs. maintain a materialised scores table (fast reads, requires careful cache invalidation on Outcome entry).
+	Open — team decision
+	Cross-event leaderboard: separate table or computed?
+	A group_event_scores table (group_id, event_id, user_id, total_score) makes cross-event aggregation fast. Required for Phase 3. Schema must support it from day one even if the UI doesn't surface it yet.
+	Open — add to schema now
+	AI event creation: where does the AI draft live?
+	event_drafts table (status: draft | confirmed | abandoned) so the Host can return to a draft before publishing. Or ephemeral — generated and confirmed in one session.
+	Open — team decision
+	
+
+MELEE  ·  Schema Reference  ·  v1.0  ·  May 2026  ·  Confidential
+You're watching anyway. Now watch together.
