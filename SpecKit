@@ -1,0 +1,219 @@
+
+# MELEE — Speckit Specification
+
+_Melee: You're watching anyway. Now watch together._
+
+---
+
+## Table of Contents
+1. Specification — What & Why
+2. User Journeys
+3. Architecture & Tech Stack
+4. Data Schema (Relational & NoSQL)
+5. MVP Scope & Phases
+6. Task Breakdown
+7. Acceptance Criteria
+8. Risks & Open Questions
+9. Roadmap
+10. Glossary
+
+---
+
+## 1. Specification — What & Why
+
+**Pitch:**  
+Melee is a social prediction platform for friend groups to compete around any structured event—sports, ballots, reality TV, and more. The core loop is social: private groups, pre-event transparency, chatter, live leaderboards, and pick history—all on mobile.
+
+**Problem:**  
+Traditional prediction games target strangers (ESPN, Yahoo). Tournament tools serve organizers. Melee creates intimate, reusable experiences for _friends_, not the betting economy or global leaderboards.
+
+**Key Insights:**
+- Social engagement, not event knowledge, drives retention.
+- Any group, any event: not just sports.
+- AI allows a “describe-it-and-done” event creation flow—Hosts never wrestle with admin chores.
+- Accountability and transparency are features, not bugs: every pick/change is public to the group.
+
+**Unique Value:**
+- **Any event:** brackets, ballots, survival pools, rankings, Pick’ems.
+- **Private groups:** group invite codes, named friend circles, all with persistent history.
+- **Chatter:** live group chat and reactions, pick transparency, activity feed, receipts.
+- **Mobile-first:** every core experience designed and validated on phones.
+- **AI-powered creation:** describe the event in plain English, get full structure instantly.
+
+---
+
+## 2. User Journeys
+
+### A. Oscar Sunday
+
+- Host enters event (“2027 Oscars”); AI scaffolds all ballot categories.
+- Group invite code/link is generated, shared via text.
+- Friends join, see the leaderboard and categories, register in 1 tap, autofill if needed.
+- Picks are **public immediately**—the mind game begins.
+- As winners are announced, live Chatter erupts. Receipts and banter persist after the event.
+
+### B. Bracket Challenge
+
+- Host describes event (“2026 NCAA Lacrosse”), AI builds bracket.
+- Group creates witty name, starts inviting more friends on the spot.
+- “Autofill” option attracts casuals and outsiders.
+- Deadline is drama moment—all picks lock, group history is sealed.
+- Results entered, scoring triggers live leaderboard. Chatter is on fire.
+
+### C. Survival Pool & More
+
+- Supports event types: Survivor, Big Brother, F1 races, Drafts, etc.
+- Platform nomenclature is neutral (Stage, Contender, Outcome, Chatter).
+
+---
+
+## 3. Architecture & Tech Stack
+
+- **Infra:** AWS primary, serverless preferred where suitable
+- **Backend:** Node.js (Express/Koa), PostgreSQL (relational core), optional DynamoDB (high frequency feeds)
+- **Frontend:** Next.js (mobile-first, SSR/ISR), React Native (future phase)
+- **Real-time:** WebSockets (API Gateway/AppSync/Socket cluster)
+- **AI:** Claude/GPT for event structure drafting
+- **Auth:** JWT (AWS Cognito/Auth0/Clerk/custom)
+- **Other:** Supabase used in early beta as backend
+
+### Non-Negotiable Schema Rules:
+- **Group-scoped picks:** enforced at DB, not just UI
+- **Pick history:** pick changes tracked in separate table, visible post-lock
+- **Recursive stages:** allows nesting for bracket/ballot/survival formats
+- **No hard deletes:** soft delete (deleted_at) for all core entities
+- **Real-time is not optional:** design for push, not polling
+
+---
+
+## 4. Data Schema
+
+### Relational (PostgreSQL):
+
+- `events(id, title, format, deadline, created_by, status, created_at, tiebreak_method)`
+- `stages(id, event_id, parent_id, title, stage_order, scoring_weight)`
+- `contenders(id, stage_id, title, seed, metadata)`
+- `groups(id, name, invite_code, created_by, created_at, streak_count, deleted_at)`
+- `group_members(id, group_id, user_id, joined_at, role)`
+- `picks(id, user_id, group_id, stage_id, contender_id, submitted_at, updated_at)`
+- `pick_history(id, pick_id, user_id, group_id, old_contender_id, new_contender_id, changed_at)`
+- `outcomes(id, stage_id, winner_contender_id, entered_by, entered_at)`
+- `users(id, email, display_name, avatar_url, created_at, auth_provider)`
+- `prop_questions(id, event_id, question_text, options, correct_option)`
+- `prop_picks(id, question_id, user_id, group_id, answer, submitted_at)`
+- `spectators(id, group_id, event_id, invited_by, spectator_email, invite_token, accessed_at)`
+
+#### Key Indices & Constraints:
+- One pick per user per stage per group: unique constraint at DB level
+- Streaks, cross-event leaderboards pre-baked in schema for future roadmap
+
+### NoSQL:
+
+- `comments` (Chatter feed): group_id partition, event_id optional, id, body, created_at, user_id
+- `reactions`: comment_id, user_id, vote, created_at
+- `activity_feed`: group_id partition, id, event_id, user_id, activity_type, payload, created_at
+
+---
+
+## 5. MVP Scope & Phases
+
+### What **is** in MVP:
+- Next.js frontend, Node + Postgres backend, JWT auth
+- AI event builder (plain English → event structure)
+- 2 event types at launch: bracket (NCAA Lacrosse), ballot (Oscars)
+- Groups: create/join via invite code, persistent chat & history
+- Per-group leaderboard, activity feed, real-time Chatter w/ reactions
+- Pre-event pick visibility, pick change history “receipts”
+- Prop question tie-breaker
+- Spectator mode (invite-only, strictly read-only)
+- Mobile-first: required for core screens
+
+### What **is NOT** in MVP (for later phases):
+- Native mobile apps, push notifications
+- Public events, general user-generated events
+- Monetization flows, advanced analytics
+- Polymarket integration; only planned
+
+**Phases:**  
+- Week 1–2: Schema + DB lock, data migration  
+- Week 2–3: Core application build, auth, real-time infra  
+- Week 3–4: Groups feature (invites, group leaderboards/chatter)  
+- Week 4–5: AI event creation  
+- Week 5–6: Oscars event, prove generalization  
+- Week 6–8: Engagement features, prop, autofill, beta test
+
+---
+
+## 6. Task Breakdown
+
+- [ ] Schema definition, review, sign-off (DB, RLS, indices)
+- [ ] Data migration (lacrosse bracket as test event)
+- [ ] Auth: JWT, basic provider integration
+- [ ] Event creation UI: AI “describe it” flow; host confirms/edits draft
+- [ ] Group system: invites, join, naming, group membership table
+- [ ] Chat/Chatter: persistent, mobile-first, per-group, real-time
+- [ ] Activity feed: picks + changes, notifications
+- [ ] Pre-event pick transparency, pick change receipts
+- [ ] Real-time infra: WebSockets push for leaderboard, Chatter, picks
+- [ ] Spectator mode: invite-only, strict read-only
+- [ ] Prop question implementation & tie-break logic
+- [ ] Mobile-first QA: all core UI validated on phone
+- [ ] Beta migration: test group, validate experience
+- [ ] Acceptance testing: social flows, scalability
+
+---
+
+## 7. Acceptance Criteria
+
+- Groups can create/launch event, invite/join via code
+- Group chat, picks, and leaderboard live before/after deadline
+- All picks/changes transparent to group, pick history permanently viewable
+- AI event creation is “magical,” not admin-like
+- Spectator flow grants clean, read-only experience
+- Prop tie-break auto-resolves, logs result
+- All core flows pass mobile usability on real devices
+
+---
+
+## 8. Risks & Open Questions
+
+**Risks:**
+- Real-time scaling: Chatter/feeds must not lag under event load
+- Beta-to-prod data migration: schema mismatch
+- Chatter drop-off against group text (see beta logs) — context and notification friction
+- Silent experts won't engage unless nudged (fix: activity feed, notifications?)
+
+**Open Schema Questions** (see schema reference doc for more):
+- Chat/feeds: PostgreSQL or NoSQL for MVP?
+- Best auth provider for both dev velocity and scale?
+- Cross-event leaderboard: precompute or query-on-demand?
+- Where do AI drafts live (db table or ephemeral)?
+
+---
+
+## 9. Roadmap
+
+- **Phase 2:** Polymarket-driven event discovery/creation, multiple friend groups per user.
+- **Phase 3:** Public events, user-generated events, cross-event leaderboards.
+- **Phase 4:** Monetization surface — “Host Pro”, member expression features, B2B/white-label pilot.
+- **Phase 5:** Aggregate data licensing, media partnerships.
+
+---
+
+## 10. Glossary
+
+**Melee:** One event (bracket, ballot, pool, etc.)  
+**Group:** Named friend circle for a Melee  
+**Stage:** Discrete unit (round, category, etc.)  
+**Contender:** Option available within a Stage  
+**Picks:** User selections  
+**Outcome:** Actual event winner/result  
+**Chatter:** Group live feed (comments, reactions)  
+**Activity Feed:** Log of all picks and changes  
+**Prop Question:** Tie-breaker & engagement device  
+**Spectator:** Read-only invitee  
+**Host:** User who creates a Melee
+
+---
+
+_Last updated: May 2026, generated with Copilot Speckit and based on full Melee documentation._
